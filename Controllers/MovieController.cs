@@ -117,7 +117,7 @@ namespace MvcMovie.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("MovieId,Title,FileName,File,GenreId")] Movie movie)
+        public async Task<IActionResult> Edit(int id, [Bind("MovieId,Title,FileName,File,FileForm,GenreId")] Movie movie)
         {
             if (id != movie.MovieId)
             {

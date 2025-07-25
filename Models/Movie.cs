@@ -16,6 +16,9 @@ namespace MvcMovie.Models
 
         public string Title { get; set; }
 
+        [DisplayName("Box Release")]
+        public int? Year { get; set; }
+
 
         public string? FileName { get; set; }
 

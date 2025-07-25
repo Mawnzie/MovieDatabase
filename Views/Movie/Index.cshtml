@@ -16,6 +16,10 @@
                 @Html.DisplayNameFor(model => model.Title)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Year)
+            </th>
+
+            <th>
                 @Html.DisplayNameFor(model => model.FileName)
             </th>
             <th>
@@ -29,6 +33,9 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Year)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.FileName)
