@@ -251,3 +251,4 @@
 /Users/majaw/MvcMovie/obj/Debug/net8.0/MvcMovie.pdb
 /Users/majaw/MvcMovie/obj/Debug/net8.0/MvcMovie.genruntimeconfig.cache
 /Users/majaw/MvcMovie/obj/Debug/net8.0/ref/MvcMovie.dll
+/Users/majaw/MvcMovie/obj/Debug/net8.0/MvcMovie.sourcelink.json

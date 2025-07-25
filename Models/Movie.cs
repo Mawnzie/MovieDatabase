@@ -23,7 +23,7 @@ namespace MvcMovie.Models
         public byte[]? File { get; set; }
 
         [NotMapped]
-        public IFormFile FileForm { get; set; }
+        public IFormFile? FileForm { get; set; }
         
 
 
