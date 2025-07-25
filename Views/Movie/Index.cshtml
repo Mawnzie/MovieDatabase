@@ -34,7 +34,8 @@
                 @Html.DisplayFor(modelItem => item.FileName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.File)
+                @* @Html.DisplayFor(modelItem => item.File) *@
+                <img src="data:image/jpeg;base64,@Convert.ToBase64String(item.File)" height="30"/>
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.MovieId">Edit</a> |
