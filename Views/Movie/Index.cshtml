@@ -4,11 +4,58 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Movies</h1>
 
+
+<p>
+    <a href="@Url.Action("Create")" class="btn btn-primary"> Add new movie </a>
+</p>
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    @foreach (var item in Model){
+        <div class="col">
+    <div class="card h-100" style="max-height: 400px;">
+<div class="text-center">
+    <img src="data:image/jpeg;base64,@Convert.ToBase64String(item.File)" 
+         class="card-img-top img-fluid" 
+         style="max-height: 200px; width: auto;" />
+</div>
+        <div class="card-body p-2">
+            <h5 class="card-title mb-1 text-truncate">@item.Title</h5>
+            <p class="card-text mb-1"><strong>Year:</strong> @item.Year</p>
+            <p class="card-text mb-2"><strong>Genre:</strong> @item.Genre</p>
+        </div>
+        <div class="card-footer text-center p-2">
+            <a href="@Url.Action("Edit", new { id = item.MovieId })" class="btn btn-sm btn-primary me-1">Edit</a>
+            <a href="@Url.Action("Details", new { id = item.MovieId })" class="btn btn-sm btn-secondary me-1">Details</a>
+            <a href="@Url.Action("Delete", new { id = item.MovieId })" class="btn btn-sm btn-danger">Delete</a>
+        </div>
+    </div>
+</div>
+        @* <div class="col">
+            <div class="card h-100">
+                <img src="data:image/jpeg;base64,@Convert.ToBase64String(item.File)" class="card-img-top cropped"/>
+                <div class="card-body">
+                    <h5 class="card-title">@item.Title</h5>
+                    <p class="card-text"> @item.Year</p>
+                    <p class="card-text">@item.Genre</p>
+                </div>
+                <div class="card-footer text-center">
+                    <a href="@Url.Action("Edit", new { id = item.MovieId })" class="btn btn-primary" style="width: 80px;">Edit</a>
+                    <a href="@Url.Action("Details", new { id = item.MovieId })" class="btn btn-primary" style="width: 80px;">Details</a>
+                    <a href="@Url.Action("Delete", new { id = item.MovieId })" class="btn btn-primary" style="width: 80px;">Delete</a>
+                </div>            
+            </div>
+        </div> *@
+    }
+</div>
+
+@*
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+
+
 <table class="table">
     <thead>
         <tr>
@@ -49,10 +96,6 @@
                     <span>No image</span>
                 }
             </td>
-
-            @* <td>
-                <img src="data:image/jpeg;base64,@Convert.ToBase64String(item.File)" height="30"/>
-            </td> *@
             <td>
                 <a asp-action="Edit" asp-route-id="@item.MovieId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.MovieId">Details</a> |
@@ -61,4 +104,4 @@
         </tr>
 }
     </tbody>
-</table>
+</table> *@
