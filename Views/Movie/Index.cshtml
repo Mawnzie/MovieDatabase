@@ -22,9 +22,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.FileName)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.File)
-            </th>
+
             <th></th>
         </tr>
     </thead>
@@ -40,10 +38,21 @@
             <td>
                 @Html.DisplayFor(modelItem => item.FileName)
             </td>
+
             <td>
-                @* @Html.DisplayFor(modelItem => item.File) *@
-                <img src="data:image/jpeg;base64,@Convert.ToBase64String(item.File)" height="30"/>
+                @if (item.File != null && item.File.Length > 0)
+                {
+                    <img src="data:image/jpeg;base64,@Convert.ToBase64String(item.File)" height="30" />
+                }
+                else
+                {
+                    <span>No image</span>
+                }
             </td>
+
+            @* <td>
+                <img src="data:image/jpeg;base64,@Convert.ToBase64String(item.File)" height="30"/>
+            </td> *@
             <td>
                 <a asp-action="Edit" asp-route-id="@item.MovieId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.MovieId">Details</a> |

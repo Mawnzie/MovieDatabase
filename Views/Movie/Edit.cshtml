@@ -23,11 +23,26 @@
                 <input asp-for="FileName" class="form-control" />
                 <span asp-validation-for="FileName" class="text-danger"></span>
             </div>
+
             <div class="form-group">
+                <label asp-for="FileForm" class="control-label"></label>
+                <input type="file" asp-for="FileForm" onchange="showImage(this)" class="form-control" />
+            </div>
+
+            <div class="form-group mt-2" id="imagePreviewWrapper" style="display:@(Model.File != null ? "block" : "none")">
+                <label>Image Preview:</label><br />
+                <img id="movieImage"
+                    src="@(Model.File != null ? $"data:image/jpeg;base64,{Convert.ToBase64String(Model.File)}" : "")"
+                    class="img-thumbnail"
+                    style="max-height: 200px;" />
+            </div>
+
+
+             @* <div class="form-group">
                 <label asp-for="File" class="control-label"></label>
                 <input asp-for="File" class="form-control" />
                 <span asp-validation-for="File" class="text-danger"></span>
-            </div>
+            </div> *@
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
@@ -40,5 +55,20 @@
 </div>
 
 @section Scripts {
+    <script>
+        function showImage(input) {
+            const image = document.getElementById('movieImage');
+            const file = input.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    image.src = e.target.result;
+                    image.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

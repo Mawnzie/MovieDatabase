@@ -26,6 +26,7 @@ namespace MvcMovie.Models
         public byte[]? File { get; set; }
 
         [NotMapped]
+        [DisplayName("Image")]
         public IFormFile? FileForm { get; set; }
         
 

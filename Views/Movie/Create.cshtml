@@ -32,12 +32,7 @@
                 <input type="file" asp-for="FileForm" onChange="showImage(this)" class="form-control" />
                 <span asp-validation-for="FileName" class="text-danger"></span>
             </div>
-            
-            @* <div class="form-group">
-                <label asp-for="File" class="control-label"></label>
-                <img id="movieImage" height="200px"/> 
-                <span asp-validation-for="File" class="text-danger"></span>
-            </div>  *@
+    
             <div id="imagePreviewWrapper" class="form-group mt-3" style="display: none;">
                 <img id="movieImage" alt="Image preview" class="img-thumbnail d-block" style="max-height: 200px;" />
             </div>
@@ -54,19 +49,6 @@
 </div>
 
 @section Scripts {
-    @* <script>
-        function showImage(data){
-            const image = document.getElementById('movieImage');
-            const reader = new FileReader();
-            const file = data.files[0];
-            
-            reader.addEventListener("load", function(){
-                image.src = reader.result;
-            },false);
-
-            reader.readAsDataURL(file);
-        }
-    </script> *@
     <script>
         function showImage(input) {
     const wrapper = document.getElementById('imagePreviewWrapper');

@@ -62,7 +62,7 @@ namespace MvcMovie.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MovieId,Title,FileName,FileForm,File,GenreId")] Movie movie)
+        public async Task<IActionResult> Create([Bind("MovieId,Title,FileName,Year,FileForm,File,GenreId")] Movie movie)
         {
             if (movie.FileForm != null)
             {
@@ -117,7 +117,7 @@ namespace MvcMovie.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("MovieId,Title,FileName,File,FileForm,GenreId")] Movie movie)
+        public async Task<IActionResult> Edit(int id, [Bind("MovieId,Title,FileName,Year,File,FileForm,GenreId")] Movie movie)
         {
             if (id != movie.MovieId)
             {
@@ -128,8 +128,26 @@ namespace MvcMovie.Controllers
             {
                 try
                 {
+                    // If a new image was uploaded
+                    if (movie.FileForm != null)
+                    {
+                        using var memoryStream = new MemoryStream();
+                        await movie.FileForm.CopyToAsync(memoryStream);
+                        movie.File = memoryStream.ToArray();
+                        movie.FileName = movie.FileForm.FileName;
+                    }
+                    else
+                    {
+                        // Keep the existing image if no new file was uploaded
+                        var existingMovie = await _context.Movies.AsNoTracking()
+                            .FirstOrDefaultAsync(m => m.MovieId == id);
+                        movie.File = existingMovie.File;
+                        movie.FileName = existingMovie.FileName;
+                    }
+
                     _context.Update(movie);
                     await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -142,9 +160,11 @@ namespace MvcMovie.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
             }
+
+            ViewData["GenreId"] = new SelectList(_context.Genres, "GenreId", "Type", movie.GenreId);
             return View(movie);
+
         }
 
         // GET: Movie/Delete/5
