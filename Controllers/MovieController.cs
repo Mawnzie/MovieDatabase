@@ -21,8 +21,13 @@ namespace MvcMovie.Controllers
 
         // GET: Movie
         public async Task<IActionResult> Index()
-        {
-            return View(await _context.Movies.ToListAsync());
+        {   
+
+        var movies = await _context.Movies
+            .Include(m => m.Genre) // Add this line
+            .ToListAsync();
+
+        return View(movies);
         }
 
         // GET: Movie/Details/5
@@ -62,7 +67,7 @@ namespace MvcMovie.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MovieId,Title,FileName,Year,FileForm,File,GenreId")] Movie movie)
+        public async Task<IActionResult> Create([Bind("MovieId,Title,FileName,FileForm,File,GenreId,Year")] Movie movie)
         {
             if (movie.FileForm != null)
             {
@@ -89,9 +94,15 @@ namespace MvcMovie.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-                    // Repopulate dropdown list here when returning view with errors
-            
-            ViewData["GenreId"] = new SelectList(_context.Genres, "GenreId", "Name", movie.GenreId);
+            // Repopulate dropdown list here when returning view with errors
+            List<SelectListItem> genres = _context.Genres
+                .Select(g => new SelectListItem
+                {
+                    Text = g.Type,
+                    Value = g.Id.ToString()
+                }).ToList();
+            ViewBag.SelectGenre = genres;
+                    
             return View(movie);
         }
         // GET: Movie/Edit/5
@@ -107,7 +118,13 @@ namespace MvcMovie.Controllers
             {
                 return NotFound();
             }
-            ViewData["GenreId"] = new SelectList(_context.Genres, "GenreId", "Name",movie.GenreId);
+            List<SelectListItem> genres = new List<SelectListItem>();
+            List<MovieGenre> possibleGenres = _context.Genres.ToList();
+            foreach (var genre in possibleGenres)
+            {
+                genres.Add(new SelectListItem(genre.Type, genre.Id.ToString()));
+            }
+            ViewBag.SelectGenre = genres;
 
             return View(movie);
         }
@@ -117,7 +134,7 @@ namespace MvcMovie.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("MovieId,Title,FileName,Year,File,FileForm,GenreId")] Movie movie)
+        public async Task<IActionResult> Edit(int id, [Bind("MovieId,Title,FileName,File,FileForm,GenreId,Year")] Movie movie)
         {
             if (id != movie.MovieId)
             {
@@ -162,7 +179,14 @@ namespace MvcMovie.Controllers
                 }
             }
 
-            ViewData["GenreId"] = new SelectList(_context.Genres, "GenreId", "Type", movie.GenreId);
+            List<SelectListItem> genres = _context.Genres
+                .Select(g => new SelectListItem
+                {
+                    Text = g.Type,
+                    Value = g.Id.ToString()
+                }).ToList();
+            ViewBag.SelectGenre = genres;
+            // ViewData["GenreId"] = new SelectList(_context.Genres, "Id", "Type", movie.GenreId);
             return View(movie);
 
         }
